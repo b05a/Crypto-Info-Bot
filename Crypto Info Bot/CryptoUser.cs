@@ -46,7 +46,7 @@ namespace Crypto_Info_Bot
         public bool changeCryptoListListenetDel = false;
         
         // Переменная указвающая на то включены или нет уведомления
-        public bool notification = false;
+        public bool notification = true;
 
         
         public void changeBanValue(string name, double value)

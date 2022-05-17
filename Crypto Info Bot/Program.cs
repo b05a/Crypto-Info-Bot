@@ -45,7 +45,7 @@ using (ApplicationContext db = new ApplicationContext())
     string listCryptoRequest = "";
 
     // Создаем телеграмм бота
-    var botClient = new TelegramBotClient("1164009224:AAEnk7ZM3ckaBZGLLC33X7ngQzjbLisPqEI");
+    var botClient = new TelegramBotClient("5351859157:AAFeRgOr1YNBt_LdBwvERe0MbyLBeIagTLo");
 
     // Создаем веб-клиент
     System.Net.WebClient we = new System.Net.WebClient();
@@ -149,7 +149,7 @@ using (ApplicationContext db = new ApplicationContext())
 
             await botClient.SendTextMessageAsync(
                       chatId: chatId,
-                      text: "How to use the bot",
+                      text: $"Your profile has been created, add crypto(crypts) and set the percentage of change to receive notifications\n\n{FAQ()}",
                       replyMarkup: replyKeyboardMarkup,
                       cancellationToken: cancellationToken);
             try
@@ -271,7 +271,7 @@ using (ApplicationContext db = new ApplicationContext())
             case "F.A.Q.":
                 await botClient.SendTextMessageAsync(
                     chatId: chatId,
-                    text: "Info",
+                    text: FAQ(),
                     replyMarkup: replyKeyboardMarkup,
                     cancellationToken: cancellationToken);
                 ;
@@ -490,7 +490,13 @@ using (ApplicationContext db = new ApplicationContext())
                     cancellationToken: cancellationToken);
                 cryptoUsersList.listUsers[chatId].changeCryptoListListenetDel = true;
                 return;
-
+            case "InfoUsers":
+                await botClient.SendTextMessageAsync(
+                    chatId: chatId,
+                    text: $"Count users {InfoUsersCount()}",
+                    replyMarkup: replyKeyboardMarkup,
+                    cancellationToken: cancellationToken);
+                return;
         }
 
 
@@ -516,7 +522,10 @@ using (ApplicationContext db = new ApplicationContext())
         return Task.CompletedTask;
     }
 
-
+    int InfoUsersCount()
+    {
+        return cryptoUsersList.listUsers.Count;
+    }
 
 
 
@@ -542,7 +551,21 @@ using (ApplicationContext db = new ApplicationContext())
     }
 
 
-
+    string FAQ()
+    {
+        return "How to use this bot?\n\n" +
+            "When sending the first message, the bot creates your profile, then you need to:\n\n" +
+            "Step 1. Click on \"Add Crypto\", then send the name of the crypto in BTC or LTC format, if such a crypto is on the mailing list, he will add it to your mailing list. You need to add one crypt at a time.\n\n" +
+            "Step 2. Click \"Setting Crypto\" -> \"Set value change\" and select the percentage at which you will receive messages.\n\n" +
+            "Ready! You will receive notifications as soon as the crypt(s) changes to the desired percentage.\n\n" +
+            "Purpose of other buttons:\n\n" +
+            "\"F.A.Q.\" shows this instruction\n" +
+            "\"Info Crypto price\" shows the price of the crypto from your list\n"+
+            "\"On/Off Notification\" enable / disable notifications\n"+
+            "\"Delete Crypto\" removes the crypto from the list\n"+
+            "\"Setting Crypto\" -> \"Info My Crypto setting\" shows your settings in the bot such as the list of cryptos, change percentage, enable or disable notifications\n"+
+            "\"Setting Crypto\" -> \"Set value change\" sets the percentage at which change the bot will send you a message";
+    }
 
 
 
